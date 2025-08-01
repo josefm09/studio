@@ -29,12 +29,14 @@ export async function POST(req: NextRequest) {
     });
     const data = await response.json();
     if (!response.ok) {
-      return NextResponse.json({ error: data.error?.message || 'Error from Gemini API.' }, { status: 500 });
+      // Return full Gemini error object for debugging
+      return NextResponse.json({ error: data.error?.message || 'Error from Gemini API.', details: data.error }, { status: 500 });
     }
     // Parse Gemini response
     const summary = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    return NextResponse.json({ summary });
+    return NextResponse.json({ summary, raw: data });
   } catch (error) {
-    return NextResponse.json({ error: 'Hubo un problema al buscar los vuelos. Por favor, inténtalo de nuevo más tarde.' }, { status: 500 });
+    // Return caught error for debugging
+    return NextResponse.json({ error: 'Hubo un problema al buscar los vuelos. Por favor, inténtalo de nuevo más tarde.', details: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
