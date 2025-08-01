@@ -29,10 +29,10 @@ export function FlightCard({ flight, isBestDeal = false }: FlightCardProps) {
     if (flight.airline) {
       // Replace with actual airline website URLs based on flight.airline
       const airlineUrls: { [key: string]: string } = {
-        "Aeromexico": "https://www.aeromexico.com/",
-        "Viva Aerobus": "https://www.vivaaerobus.com/",
-        "Volaris": "https://www.volaris.com/"
-        // Add other airlines and their URLs here
+        "Aeromexico": "https://www.aeromexico.com/booking?origin={origin}&destination={destination}&date={date}&departureTime={departureTime}",
+        "Viva Aerobus": "https://www.vivaaerobus.com/booking?origin={origin}&destination={destination}&date={date}&arrivalTime={arrivalTime}",
+        "Volaris": "https://www.volaris.com/book?from={origin}&to={destination}&depart={date}&price={price}",
+
       };
       const url = airlineUrls[flight.airline];
       if (url) {
