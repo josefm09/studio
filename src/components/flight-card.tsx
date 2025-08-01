@@ -6,15 +6,17 @@ import { Badge } from "@/components/ui/badge";
 import {
   Clock,
   PlaneTakeoff,
-  PlaneLand,
+  PlaneLanding,
   ArrowRight,
   DollarSign,
 } from "lucide-react";
+import { Button } from "./ui/button";
 
 type Flight = {
   departureTime: string;
   arrivalTime: string;
   price: number;
+  airline?: string;
 };
 
 interface FlightCardProps {
@@ -23,6 +25,22 @@ interface FlightCardProps {
 }
 
 export function FlightCard({ flight, isBestDeal = false }: FlightCardProps) {
+  const handleRedirect = () => {
+    if (flight.airline) {
+      // Replace with actual airline website URLs based on flight.airline
+      const airlineUrls: { [key: string]: string } = {
+        "Aeromexico": "https://www.aeromexico.com/",
+        "Viva Aerobus": "https://www.vivaaerobus.com/",
+        "Volaris": "https://www.volaris.com/"
+        // Add other airlines and their URLs here
+      };
+      const url = airlineUrls[flight.airline];
+      if (url) {
+        window.open(url, '_blank');
+      }
+    }
+  };
+
   return (
     <Card
       className={`transition-all hover:shadow-md ${
@@ -40,7 +58,7 @@ export function FlightCard({ flight, isBestDeal = false }: FlightCardProps) {
             </div>
             <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground" />
             <div className="flex items-center gap-2">
-              <PlaneLand className="h-5 w-5 text-muted-foreground" />
+              <PlaneLanding className="h-5 w-5 text-muted-foreground" />
               <span className="font-mono text-lg font-medium">
                 {flight.arrivalTime}
               </span>
@@ -59,6 +77,11 @@ export function FlightCard({ flight, isBestDeal = false }: FlightCardProps) {
               <Badge variant="default" className="bg-accent text-accent-foreground hover:bg-accent/90">
                 Mejor Opción
               </Badge>
+            )}
+             {flight.airline && (
+              <Button onClick={handleRedirect} size="sm" variant="outline">
+                Visitar {flight.airline}
+              </Button>
             )}
           </div>
         </div>

@@ -43,12 +43,12 @@ import { FlightCard } from "@/components/flight-card";
 const origins = [
   { value: "CUL", label: "Culiacán (CUL)" },
   { value: "GDL", label: "Guadalajara (GDL)" },
-  { value: "MEX", label: "Ciudad de México (MEX)" },
+  { value: "MEX", label: "Ciudad de México (CDMX)" },
 ];
 
 const destinations = [
   { value: "LAP", label: "La Paz (LAP)" },
-  { value:_("cdmx"), label: "Ciudad de México (MEX)" },
+  { value: "cdmx", label: "Ciudad de México (CDMX)" },
   { value: "TIJ", label: "Tijuana (TIJ)" },
 ];
 
@@ -107,7 +107,7 @@ export default function Home() {
               Buscar Vuelos
             </CardTitle>
             <CardDescription>
-              Elige tu origen, destino y fecha para ver los mejores vuelos de
+              Elige tu origen, destino y fecha para ver los mejores vuelos del
               día.
             </CardDescription>
           </CardHeader>

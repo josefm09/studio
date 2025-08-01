@@ -12,22 +12,22 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SummarizeFlightsInputSchema = z.object({
-  origin: z.string().describe('The origin airport code.'),
-  destination: z.string().describe('The destination airport code.'),
-  date: z.string().describe('The date of the flight (YYYY-MM-DD).'),
+  origin: z.string().describe('El código del aeropuerto de origen.'),
+  destination: z.string().describe('El código del aeropuerto de destino.'),
+  date: z.string().describe('La fecha del vuelo (YYYY-MM-DD).'),
 });
 export type SummarizeFlightsInput = z.infer<typeof SummarizeFlightsInputSchema>;
 
 const SummarizeFlightsOutputSchema = z.object({
-  summary: z.string().describe('A summary of the available daytime flights, sorted by price.'),
+  summary: z.string().describe('Un resumen de los vuelos diurnos disponibles, ordenados por precio.'),
   flights: z.array(
     z.object({
-      departureTime: z.string().describe('The departure time of the flight.'),
-      arrivalTime: z.string().describe('The arrival time of the flight.'),
-      price: z.number().describe('The price of the flight in USD.'),
+      departureTime: z.string().describe('La hora de salida del vuelo.'),
+      arrivalTime: z.string().describe('La hora de llegada del vuelo.'),
+      price: z.number().describe('El precio del vuelo en MXN.'),
     })
   ).
-describe('A list of available daytime flights, sorted by price.'),
+describe('Una lista de los vuelos diurnos disponibles, ordenados por precio.'),
 });
 export type SummarizeFlightsOutput = z.infer<typeof SummarizeFlightsOutputSchema>;
 
@@ -39,14 +39,14 @@ const summarizeFlightsPrompt = ai.definePrompt({
   name: 'summarizeFlightsPrompt',
   input: {schema: SummarizeFlightsInputSchema},
   output: {schema: SummarizeFlightsOutputSchema},
-  prompt: `You are a travel agent specializing in finding the best daytime flights for your clients.
+  prompt: `Eres un agente de viajes especializado en encontrar los mejores vuelos diurnos para tus clientes.
 
-  Given the origin, destination, and date, summarize the available daytime flights, sorted by price.
-  Exclude any flights that depart or arrive at night (10 PM - 6 AM local time).
+  Dado el origen, el destino y la fecha, resume los vuelos diurnos disponibles, ordenados por precio.
+  Excluye cualquier vuelo que salga o llegue de noche (22:00 - 6:00 hora local).
 
-  Origin: {{{origin}}}
-  Destination: {{{destination}}}
-  Date: {{{date}}}
+  Origen: {{{origin}}}
+  Destino: {{{destination}}}
+  Fecha: {{{date}}}
   `, // Removed media as it was not relevant for text summarization. Use media calls for images only.
 });
 
