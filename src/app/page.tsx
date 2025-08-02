@@ -72,17 +72,26 @@ export default function Home() {
     setResults(null);
 
     const formattedDate = format(date, "yyyy-MM-dd");
-    const response = await findFlightsAction({
-      origin,
-      destination,
-      date: formattedDate,
-    });
-
-    setLoading(false);
-    if (response.error) {
-      setError(response.error);
-    } else if (response.data) {
-      setResults(response.data);
+    try {
+      const res = await fetch("/api/summarize-flights", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ origin, destination, date: formattedDate }),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (!res.ok) {
+        setError(data.error || "Hubo un problema al buscar los vuelos.");
+      } else if (typeof data.summary === "string" && data.summary.length > 0) {
+        setResults({ summary: data.summary });
+      } else {
+        setError("No se encontraron vuelos.");
+      }
+    } catch (err) {
+      setLoading(false);
+      setError("Hubo un problema al buscar los vuelos.");
     }
   };
 
